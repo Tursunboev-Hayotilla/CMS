@@ -9,7 +9,7 @@ namespace CMS.Domain.Entities
 {
     public class Lesson
     {
-        public Guid Id { get; set; } = new Guid();
+        public Guid Id { get; set; }
         public required string Theme { get; set; }
         public virtual Subject SubjectId { get; set; }
         public required Day? Day { get; set; }
