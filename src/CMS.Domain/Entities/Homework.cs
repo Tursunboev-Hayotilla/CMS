@@ -8,7 +8,7 @@ namespace CMS.Domain.Entities
 {
     public class Homework
     {
-        public Guid Id { get; set; } = new Guid();
+        public Guid Id { get; set; }
         public virtual Lesson LessonId { get; set; }
         public string Result { get; set; }
         public int Coin { get; set; }

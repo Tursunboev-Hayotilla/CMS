@@ -9,7 +9,7 @@ namespace CMS.Domain.Entities
 {
     public class Teacher
     {
-        public Guid Id { get; set; } = new Guid();
+        public Guid Id { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public Gender Gender { get; set; } 
