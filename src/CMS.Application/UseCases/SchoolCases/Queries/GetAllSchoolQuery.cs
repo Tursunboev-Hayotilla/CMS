@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMS.Application.UseCases.QuizeCases.Commands
+namespace CMS.Application.UseCases.SchoolCases.Queries
 {
-    internal class QuizeCase
+    internal class GetAllSchoolQuery
     {
     }
 }
