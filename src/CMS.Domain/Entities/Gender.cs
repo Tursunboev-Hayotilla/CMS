@@ -9,6 +9,6 @@ namespace CMS.Domain.Entities
     public enum Gender
     {
         Male,
-        Fmale
+        Female
     }
 }
