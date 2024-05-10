@@ -9,13 +9,13 @@ namespace CMS.Domain.Entities
     public class Teacher
     {
         public Guid Id { get; set; } = new Guid();
-        public required string firstName { get; set; }
-        public required string lastName { get; set; }
-        public Gender? gender { get; set; } 
-        public string? photoPath { get; set; }
-        public required string email { get; set; }
-        public required string phoneNumber { get; set; }
-        public object subjectId { get; set; }
-        public required object location { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public Gender Gender { get; set; } 
+        public string? PhotoPath { get; set; }
+        public required string Email { get; set; }
+        public required string PhoneNumber { get; set; }
+        public virtual Subject SubjectId { get; set; }
+        public virtual Location LocationId { get; set; }
     }
 }

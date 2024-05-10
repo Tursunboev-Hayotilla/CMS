@@ -13,8 +13,8 @@ namespace CMS.Domain.Entities
         public required string Region { get; set; }
         public required string District { get; set; }
         public string? HomeNumber { get; set; }
-        public long? latitude { get; set; }
-        public long? longitude { get; set; }
+        public long? Latitude { get; set; }
+        public long? Longitude { get; set; }
 
     }
 }

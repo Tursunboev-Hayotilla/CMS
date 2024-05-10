@@ -9,11 +9,11 @@ namespace CMS.Domain.Entities
     public class Homework
     {
         public Guid Id { get; set; } = new Guid();
-        public object lessonId { get; set; }
-        public string result { get; set; }
-        public int coin { get; set; }
-        public required DateTimeOffset startDate { get; set; }
-        public required DateTimeOffset endDate { get; set;}
+        public virtual Lesson LessonId { get; set; }
+        public string Result { get; set; }
+        public int Coin { get; set; }
+        public required DateTimeOffset StartDate { get; set; }
+        public required DateTimeOffset EndDate { get; set;}
 
     }
 }

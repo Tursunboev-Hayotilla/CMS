@@ -10,11 +10,11 @@ namespace CMS.Domain.Entities
     {
         public Guid Id { get; set; } = new Guid();
         public required string Theme { get; set; }
-        public object subjectId { get; set; }
-        public required Day? day { get; set; }
-        public required TimeOnly? fromTime {  get; set; }
-        public required TimeOnly? toTime {  get; set; }
-        public object classId { get; set; } 
+        public virtual Subject SubjectId { get; set; }
+        public required Day? Day { get; set; }
+        public required TimeOnly? FromTime {  get; set; }
+        public required TimeOnly? ToTime {  get; set; }
+        public virtual Class ClassId { get; set; } 
 
     }
 }
