@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.QuizCases.Commands
 {
-    public class CreateQuizCommand:IRequest<ResponseModel>
+    public class UpdateQuizCommand:IRequest<ResponseModel>
     {
+        public Guid Id { get; set; }
         public required string Question { get; set; }
         public required string Options1 { get; set; }
         public required string Options2 { get; set; }

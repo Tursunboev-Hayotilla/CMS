@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\QuizCases\Handlers\CommandHandlers\" />
-    <Folder Include="UseCases\QuizCases\Handlers\QueryHandlers\" />
-    <Folder Include="UseCases\QuizCases\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MediatR" Version="11.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
