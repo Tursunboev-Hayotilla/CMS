@@ -10,10 +10,11 @@ namespace CMS.Domain.Entities
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
-        public required virtual Location LocationId { get; set; }
         public int? ClassCount { get; set; }
         public int? StudentCount { get; set; }
         public string? PhotoPath { get; set; }
-        public string? EmployeesCount { get; set; }
+        public int? EmployeesCount { get; set; }
+        public Guid LocationId { get; set; }
+        public required virtual Location Location { get; set; }
     }
 }

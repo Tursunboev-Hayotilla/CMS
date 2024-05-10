@@ -14,9 +14,9 @@ namespace CMS.Application.UseCases.QuizCases.Handlers.QueryHandlers
 {
     public class GetQuizByIdQueryHandler : IRequestHandler<GetQuizByIdQuery, Quiz>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ICMSDbContext _context;
 
-        public GetQuizByIdQueryHandler(IApplicationDbContext context)
+        public GetQuizByIdQueryHandler(ICMSDbContext context)
         {
             _context = context;
         }

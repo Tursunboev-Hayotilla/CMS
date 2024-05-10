@@ -14,9 +14,9 @@ namespace CMS.Application.UseCases.QuizCases.Handlers.CommandHandlers
 {
     public class DeleteQuizCommandHandler : IRequestHandler<DeleteQuizCommand, ResponseModel>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ICMSDbContext _context;
 
-        public DeleteQuizCommandHandler(IApplicationDbContext context)
+        public DeleteQuizCommandHandler(ICMSDbContext context)
         {
             _context = context;
         }

@@ -1,4 +1,7 @@
 
+using CMS.Application;
+using CMS.Infrastructure;
+
 namespace CMS.API
 {
     public class Program
@@ -8,6 +11,13 @@ namespace CMS.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("_myAllowSpecificOrigins",
+                    builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            });
+            builder.Services.AddCMSApplication();
+            builder.Services.AddCMSInfrastructure(builder.Configuration);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,8 +35,10 @@ namespace CMS.API
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseCors("_myAllowSpecificOrigins");
 
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllers();
 
