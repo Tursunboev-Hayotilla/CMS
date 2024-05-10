@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace CMS.Domain.Entities
 {
-    public enum Gender
+    public enum Day
     {
-        Male,
-        Female
+        Monday,
+        Tuesday,
+        Wednesday,
+        Thursday,
+        Friday,
+        Saturday,
+        Sunday
     }
 }

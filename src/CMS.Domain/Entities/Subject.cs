@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CMS.Domain.Entities
 {
-    public enum Gender
+    public class Subject
     {
-        Male,
-        Female
+        public Guid Id { get; set; } = new Guid();
+        public required string Name { get; set; }
     }
 }
