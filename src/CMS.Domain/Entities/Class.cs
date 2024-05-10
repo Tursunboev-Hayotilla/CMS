@@ -3,11 +3,11 @@
     public class Class
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public object TeacherId { get; set; }
-        public object StudentList { get; set; }
-        public object SubjectList { get; set; }
-        public object AttendanceList { get; set; }
-        public byte Grade { get; set; }
+        public required string Name { get; set; }
+        public virtual Teacher TeacherId { get; set; }
+        public Student StudentList { get; set; }
+        public Subject SubjectList { get; set; }
+        public Attendance AttendanceList { get; set; }
+        public required byte Grade { get; set; }
     }
 }
