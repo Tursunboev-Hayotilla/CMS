@@ -7,8 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="UseCases\" />
+    <Folder Include="UseCases\QuizeCases\Handlers\CommandHandlers\" />
+    <Folder Include="UseCases\QuizeCases\Handlers\QueryHandlers\" />
+    <Folder Include="UseCases\QuizeCases\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CMS.Domain\CMS.Domain.csproj" />
   </ItemGroup>
 
 </Project>
