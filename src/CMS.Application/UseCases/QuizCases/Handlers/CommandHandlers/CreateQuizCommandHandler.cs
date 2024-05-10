@@ -14,9 +14,9 @@ namespace CMS.Application.UseCases.QuizCases.Handlers.CommandHandlers
 {
     public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, ResponseModel>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ICMSDbContext _context;
 
-        public CreateQuizCommandHandler(IApplicationDbContext context)
+        public CreateQuizCommandHandler(ICMSDbContext context)
         {
             _context = context;
         }

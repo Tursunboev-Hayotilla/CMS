@@ -1,4 +1,5 @@
-﻿using CMS.Domain.Entities;
+﻿using CMS.Domain.Auth;
+using CMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.Abstractions
 {
-    public interface IApplicationDbContext
+    public interface ICMSDbContext
     {
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Class> Classes { get; set; }
@@ -22,7 +23,7 @@ namespace CMS.Application.Abstractions
         public DbSet<Student> Students { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
-
+        public DbSet<Employee> Employees { get; set; }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

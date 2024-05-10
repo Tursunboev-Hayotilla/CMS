@@ -11,8 +11,11 @@ namespace CMS.Domain.Entities
         public Guid Id { get; set; }
         public required string Title { get; set; }
         public required DateTimeOffset Date { get; set; }
-        public virtual School SchoolId { get; set; }
-        public string? Description { get; set; }
+        public required string Description { get; set; }
         public string? PhotoPath { get; set; }
+        public Guid SchoolId { get; set; }
+
+        // Virtualarni UseCaseslarda ishlatmatmaymiz
+        public virtual School School { get; set; }
     }
 }

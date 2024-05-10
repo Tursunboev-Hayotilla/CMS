@@ -10,5 +10,10 @@ namespace CMS.Domain.Entities
     {
         public Guid Id { get; set; } 
         public required string Name { get; set; }
+        public Guid? ClassId { get; set; }
+
+        // Virtualarni UseCaseslarda ishlatmatmaymiz
+        public virtual Class Class { get; set; }
+
     }
 }

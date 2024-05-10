@@ -1,12 +1,13 @@
 ﻿using CMS.Application.Abstractions;
+using CMS.Domain.Auth;
 using CMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CMS.Infrastructure.Persistance
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class CMSDbContext : DbContext, ICMSDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
+        public CMSDbContext(DbContextOptions<CMSDbContext> options) : base(options)
         {
         }
 
@@ -22,5 +23,17 @@ namespace CMS.Infrastructure.Persistance
         public DbSet<Student> Students { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Class>()
+                .HasMany(c => c.Subjects)
+                .WithOne(s => s.Class)
+                .HasForeignKey(s => s.ClassId);
+            modelBuilder.Entity<Attendance>()
+              .HasOne(a => a.Lesson)
+              .WithOne(l => l.Attendance)
+              .HasForeignKey<Lesson>(l => l.AttendanceId);
+        }
     }
 }
