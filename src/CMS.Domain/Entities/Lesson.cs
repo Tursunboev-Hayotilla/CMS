@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CMS.Domain.Entities.Enums;
 
 namespace CMS.Domain.Entities
 {

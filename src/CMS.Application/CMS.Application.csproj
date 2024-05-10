@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\QuizeCases\Handlers\CommandHandlers\" />
-    <Folder Include="UseCases\QuizeCases\Handlers\QueryHandlers\" />
-    <Folder Include="UseCases\QuizeCases\Queries\" />
+    <Folder Include="UseCases\QuizCases\Handlers\CommandHandlers\" />
+    <Folder Include="UseCases\QuizCases\Handlers\QueryHandlers\" />
+    <Folder Include="UseCases\QuizCases\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
   </ItemGroup>
 

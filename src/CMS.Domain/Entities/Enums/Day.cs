@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMS.Domain.Entities
+namespace CMS.Domain.Entities.Enums
 {
     public enum Day
     {
