@@ -18,7 +18,7 @@ namespace CMS.Infrastructure
             services.AddDbContext<ICMSDbContext, CMSDbContext>(options =>
             {
                 options.UseLazyLoadingProxies()
-                .UseNpgsql(configuration.GetConnectionString("SchoolCRM"));
+                .UseNpgsql(configuration.GetConnectionString("Postgres"));
             });
             return services;
         }

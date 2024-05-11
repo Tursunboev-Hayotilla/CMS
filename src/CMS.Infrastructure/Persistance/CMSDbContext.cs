@@ -35,5 +35,6 @@ namespace CMS.Infrastructure.Persistance
               .WithOne(l => l.Attendance)
               .HasForeignKey<Lesson>(l => l.AttendanceId);
         }
+
     }
 }
