@@ -1,5 +1,5 @@
-﻿using CMS.Domain.Auth;
-using CMS.Domain.Entities;
+﻿using CMS.Domain.Entities;
+using CMS.Domain.Entities.Auth;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,7 @@ namespace CMS.Application.Abstractions
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<User> Users { get; set; }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

@@ -1,12 +1,14 @@
-
-using CMS.Application;
 using CMS.Infrastructure;
+using CMS.Application;
+using CMS.Domain.Entities.Auth;
+using Microsoft.AspNetCore.Identity;
+using CMS.Infrastructure.Persistance;
 
 namespace CMS.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,10 @@ namespace CMS.API
             });
             builder.Services.AddCMSApplication();
             builder.Services.AddCMSInfrastructure(builder.Configuration);
+
+            builder.Services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<CMSDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,7 +48,23 @@ namespace CMS.API
 
             app.MapControllers();
 
-            app.Run();
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var roles = new[] { "Student", "Teacher", "HeadTeacher" };
+
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
+                }
+            }
+
+            await app.RunAsync(); 
         }
+
     }
 }
+

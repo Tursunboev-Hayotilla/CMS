@@ -1,6 +1,7 @@
 ﻿using CMS.Application.Abstractions;
 using CMS.Application.UseCases.TeacherCases.Commands;
 using CMS.Domain.Entities;
+using CMS.Domain.Entities.Auth;
 using CMS.Domain.Entities.Models;
 using Mapster;
 using MediatR;
@@ -15,9 +16,9 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
 {
     public class UpdateTeacherCommandHandler : IRequestHandler<UpdateTeacherCommand, ResponseModel>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ICMSDbContext _context;
 
-        public UpdateTeacherCommandHandler(IApplicationDbContext context)
+        public UpdateTeacherCommandHandler(ICMSDbContext context)
         {
             _context = context;
         }
@@ -26,7 +27,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
         {
             try
             {
-                Teacher teacher = await _context.Teachers.FirstOrDefaultAsync(a => a.Id == request.Id);
+                Teacher teacher = await _context.Teachers.FirstOrDefaultAsync(a => a.Id == request.Id.ToString());
                 if (teacher == null)
                 {
                     return new ResponseModel

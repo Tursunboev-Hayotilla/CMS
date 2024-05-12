@@ -1,4 +1,4 @@
-﻿using CMS.Domain.Auth;
+﻿using CMS.Domain.Entities.Auth;
 
 namespace CMS.Domain.Entities
 {

@@ -1,4 +1,5 @@
 ﻿using CMS.Domain.Entities;
+using CMS.Domain.Entities.Auth;
 using MediatR;
 using System;
 using System.Collections.Generic;

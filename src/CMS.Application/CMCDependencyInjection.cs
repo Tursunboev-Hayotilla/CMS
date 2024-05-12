@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using CMS.Application.UseCases.Auth;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace CMS.Application
     {
         public static IServiceCollection AddCMSApplication(this IServiceCollection services)
         {
+            services.AddScoped<IAuthServise, AuthServise>();
             services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;
         }

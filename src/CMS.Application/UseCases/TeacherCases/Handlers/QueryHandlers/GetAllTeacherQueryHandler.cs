@@ -1,6 +1,7 @@
 ﻿using CMS.Application.Abstractions;
 using CMS.Application.UseCases.TeacherCases.Queries;
 using CMS.Domain.Entities;
+using CMS.Domain.Entities.Auth;
 using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,9 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.QueryHandlers
 {
     public class GetAllTeacherQueryHandler : IRequestHandler<GetAllTeacherQuery, IEnumerable<Teacher>>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ICMSDbContext _context;
 
-        public GetAllTeacherQueryHandler(IApplicationDbContext context)
+        public GetAllTeacherQueryHandler(ICMSDbContext context)
         {
             _context = context;
         }

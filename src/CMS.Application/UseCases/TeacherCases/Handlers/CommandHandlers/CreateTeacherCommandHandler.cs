@@ -1,6 +1,7 @@
 ﻿using CMS.Application.Abstractions;
 using CMS.Application.UseCases.TeacherCases.Commands;
 using CMS.Domain.Entities;
+using CMS.Domain.Entities.Auth;
 using CMS.Domain.Entities.Models;
 using Mapster;
 using MediatR;
@@ -14,9 +15,9 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
 {
     public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand, ResponseModel>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ICMSDbContext _context;
 
-        public CreateTeacherCommandHandler(IApplicationDbContext context)
+        public CreateTeacherCommandHandler(ICMSDbContext context)
         {
             _context = context;
         }
