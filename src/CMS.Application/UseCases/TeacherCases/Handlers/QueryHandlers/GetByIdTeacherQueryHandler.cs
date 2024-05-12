@@ -1,6 +1,7 @@
 ﻿using CMS.Application.Abstractions;
 using CMS.Application.UseCases.TeacherCases.Queries;
 using CMS.Domain.Entities;
+using CMS.Domain.Entities.Auth;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,9 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.QueryHandlers
 {
     public class GetByIdTeacherQueryHandler : IRequestHandler<GetByIdTeacherQuery, Teacher>
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ICMSDbContext _context;
 
-        public GetByIdTeacherQueryHandler(IApplicationDbContext context)
+        public GetByIdTeacherQueryHandler(ICMSDbContext context)
         {
             _context = context;
         }
@@ -23,7 +24,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.QueryHandlers
         {
             try
             {
-                Teacher teacher = await _context.Teachers.FirstOrDefaultAsync(a => a.Id == request.Id);
+                Teacher teacher = await _context.Teachers.FirstOrDefaultAsync(a => a.Id == request.Id.ToString());
                 if (teacher == null)
                 {
                     throw new Exception("Not Found");

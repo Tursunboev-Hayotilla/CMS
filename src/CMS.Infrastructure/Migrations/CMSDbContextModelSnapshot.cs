@@ -25,239 +25,6 @@ namespace CMS.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CMS.Domain.Auth.Employee", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("PhotoPath")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("CMS.Domain.Auth.Student", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid?>("ClassId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Coin")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int?>("Gender")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("PhotoPath")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("LocationId");
-
-                    b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("CMS.Domain.Auth.Teacher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Gender")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("PhotoPath")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<Guid?>("SubjectId")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Teachers");
-                });
-
             modelBuilder.Entity("CMS.Domain.Entities.Attendance", b =>
                 {
                     b.Property<Guid>("Id")
@@ -280,6 +47,91 @@ namespace CMS.Infrastructure.Migrations
                     b.ToTable("Attendances");
                 });
 
+            modelBuilder.Entity("CMS.Domain.Entities.Auth.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("CMS.Domain.Entities.Class", b =>
                 {
                     b.Property<Guid>("Id")
@@ -296,9 +148,12 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<Guid>("TeacherId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("TeacherId1")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("TeacherId1");
 
                     b.ToTable("Classes");
                 });
@@ -559,43 +414,249 @@ namespace CMS.Infrastructure.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("CMS.Domain.Auth.Employee", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.HasOne("CMS.Domain.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
-                    b.Navigation("Location");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("CMS.Domain.Auth.Student", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("CMS.Domain.Entities.Class", "Class")
-                        .WithMany("Students")
-                        .HasForeignKey("ClassId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
 
-                    b.HasOne("CMS.Domain.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Navigation("Class");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
 
-                    b.Navigation("Location");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("CMS.Domain.Auth.Teacher", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CMS.Domain.Entities.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
 
-                    b.HasOne("CMS.Domain.Entities.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Navigation("Location");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
 
-                    b.Navigation("Subject");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Auth.Employee", b =>
+                {
+                    b.HasBaseType("CMS.Domain.Entities.Auth.User");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PDFPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoPath")
+                        .HasColumnType("text");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("AspNetUsers", t =>
+                        {
+                            t.Property("Gender")
+                                .HasColumnName("Employee_Gender");
+
+                            t.Property("LocationId")
+                                .HasColumnName("Employee_LocationId");
+
+                            t.Property("PDFPath")
+                                .HasColumnName("Employee_PDFPath");
+
+                            t.Property("PhotoPath")
+                                .HasColumnName("Employee_PhotoPath");
+                        });
+
+                    b.HasDiscriminator().HasValue("Employee");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Auth.Student", b =>
+                {
+                    b.HasBaseType("CMS.Domain.Entities.Auth.User");
+
+                    b.Property<Guid?>("ClassId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Coin")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PDFPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ParentsPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoPath")
+                        .HasColumnType("text");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("AspNetUsers", t =>
+                        {
+                            t.Property("Gender")
+                                .HasColumnName("Student_Gender");
+
+                            t.Property("LocationId")
+                                .HasColumnName("Student_LocationId");
+
+                            t.Property("PDFPath")
+                                .HasColumnName("Student_PDFPath");
+
+                            t.Property("PhotoPath")
+                                .HasColumnName("Student_PhotoPath");
+                        });
+
+                    b.HasDiscriminator().HasValue("Student");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Auth.Teacher", b =>
+                {
+                    b.HasBaseType("CMS.Domain.Entities.Auth.User");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PDFPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhotoPath")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("SubjectId")
+                        .HasColumnType("uuid");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasDiscriminator().HasValue("Teacher");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Attendance", b =>
@@ -611,11 +672,9 @@ namespace CMS.Infrastructure.Migrations
 
             modelBuilder.Entity("CMS.Domain.Entities.Class", b =>
                 {
-                    b.HasOne("CMS.Domain.Auth.Teacher", "Teacher")
+                    b.HasOne("CMS.Domain.Entities.Auth.Teacher", "Teacher")
                         .WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeacherId1");
 
                     b.Navigation("Teacher");
                 });
@@ -719,6 +778,102 @@ namespace CMS.Infrastructure.Migrations
                         .HasForeignKey("ClassId");
 
                     b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Auth.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Auth.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CMS.Domain.Entities.Auth.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Auth.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Auth.Employee", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Auth.Student", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Class", "Class")
+                        .WithMany("Students")
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("CMS.Domain.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Auth.Teacher", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CMS.Domain.Entities.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Attendance", b =>
