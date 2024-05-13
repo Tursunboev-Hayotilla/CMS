@@ -34,8 +34,8 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<Guid>("ClassId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid>("DateId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("LessonId")
                         .HasColumnType("uuid");
@@ -43,6 +43,8 @@ namespace CMS.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("DateId");
 
                     b.ToTable("Attendances");
                 });
@@ -164,8 +166,8 @@ namespace CMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid>("DateId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -174,16 +176,13 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<string>("PhotoPath")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("SchoolId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("DateId");
 
                     b.ToTable("Events");
                 });
@@ -200,9 +199,8 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<int>("Coin")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Result")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("DateId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("SubjectId")
                         .HasColumnType("uuid");
@@ -214,6 +212,8 @@ namespace CMS.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("DateId");
 
                     b.HasIndex("SubjectId");
 
@@ -313,6 +313,26 @@ namespace CMS.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Models.CustomeDate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomeDate");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Quiz", b =>
@@ -667,7 +687,15 @@ namespace CMS.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "Date")
+                        .WithMany()
+                        .HasForeignKey("DateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Class");
+
+                    b.Navigation("Date");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Class", b =>
@@ -681,13 +709,13 @@ namespace CMS.Infrastructure.Migrations
 
             modelBuilder.Entity("CMS.Domain.Entities.Event", b =>
                 {
-                    b.HasOne("CMS.Domain.Entities.School", "School")
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "Date")
                         .WithMany()
-                        .HasForeignKey("SchoolId")
+                        .HasForeignKey("DateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("School");
+                    b.Navigation("Date");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Examine", b =>
@@ -698,6 +726,12 @@ namespace CMS.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "Date")
+                        .WithMany()
+                        .HasForeignKey("DateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CMS.Domain.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
@@ -705,6 +739,8 @@ namespace CMS.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Class");
+
+                    b.Navigation("Date");
 
                     b.Navigation("Subject");
                 });
