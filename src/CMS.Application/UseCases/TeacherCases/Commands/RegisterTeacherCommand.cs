@@ -1,4 +1,7 @@
 ﻿using CMS.Domain.Entities.Enums;
+using CMS.Domain.Entities;
+using CMS.Domain.Entities.Models;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -6,13 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMS.Domain.Entities.Models
+namespace CMS.Application.UseCases.TeacherCases.Commands
 {
-    public class TeacherRegisterDTO
+    public class RegisterTeacherCommand:IRequest<ResponseModel>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email {  get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public Gender Gender { get; set; }
         public IFormFile Photo { get; set; }
