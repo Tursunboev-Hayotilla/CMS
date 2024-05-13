@@ -1,6 +1,8 @@
 ﻿using CMS.Application.UseCases.Auth;
+using CMS.Application.UseCases.TeacherCases.Commands;
 using CMS.Domain.Entities.Auth;
 using CMS.Domain.Entities.Models;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,97 +14,18 @@ namespace CMS.API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IAuthServise _authServise;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        public AuthController(UserManager<User> userManager, IAuthServise authServise, IWebHostEnvironment webHostEnvironment)
+        private readonly IMediator _mediatr;
+        public AuthController(UserManager<User> userManager, IAuthServise authServise,IMediator mediator)
         {
             _authServise = authServise;
             _userManager = userManager;
-            _webHostEnvironment = webHostEnvironment;
-
+            _mediatr = mediator;
         }
 
         [HttpPost]
-        public async Task<ResponseModel> TeacherRegister(TeacherRegisterDTO teacher)
+        public async Task<ResponseModel> TeacherRegister(RegisterTeacherCommand command)
         {
-            var userExists = await _userManager.FindByEmailAsync(teacher.Email);
-            if (userExists != null)
-            {
-                return new ResponseModel()
-                {
-                    Message = "Email already taken",
-                    StatusCode = 403,
-                    IsSuccess = false
-                };
-            }
-            var photo = teacher.Photo;
-            var pdf = teacher.PDF;
-            string PDFFileName= "";
-            string PDFFilePath = "";
-
-            string PhotoFileName = "";
-            string PhotoFilePath = "";
-
-            try
-            {
-                PDFFileName = Guid.NewGuid().ToString() + Path.GetExtension(pdf.FileName);
-                PDFFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPDF", PDFFileName);
-
-                PhotoFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-                PhotoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPhoto", PhotoFileName);
-
-                using(var stream = new FileStream(PDFFilePath, FileMode.Create))
-                {
-                    await pdf.CopyToAsync(stream);
-                }
-                using (var Photostream = new FileStream(PhotoFilePath, FileMode.Create))
-                {
-                    await photo.CopyToAsync(Photostream);
-                }
-            }
-            catch
-            {
-                return new ResponseModel()
-                {
-                    Message = "Something went wrong",
-                    StatusCode = 500,
-                    IsSuccess = false
-                };
-            }
-            var newTeacher = new Teacher()
-            {
-                UserName = teacher.FirstName + teacher.LastName,
-                FirstName = teacher.FirstName,
-                LastName = teacher.LastName,
-                Gender = teacher.Gender,
-                SubjectId = teacher.SubjectId,
-                Location = teacher.Location,
-                Email = teacher.Email,
-                PhoneNumber = teacher.PhoneNumber,
-                PDFPath = "/TeacherPDF/" +PDFFileName,
-                PhotoPath = "/TeacherPhoto/"+PhotoFileName,
-                Role = "Teacher"
-            };
-
-            var result = await _userManager.CreateAsync(newTeacher,teacher.Password);
-
-            if (!result.Succeeded)
-            {
-                return new ResponseModel()
-                {
-                    Message = "Something went wrong",
-                    StatusCode = 500,
-                    IsSuccess = false
-                };
-            }
-
-            var res =  await _userManager.AddToRoleAsync(newTeacher,"Teacher");
-            Console.WriteLine();
-            return new ResponseModel()
-            {
-                Message = "Succesfully registered",
-                StatusCode = 203,
-                IsSuccess = true
-            };
+           return await _mediatr.Send(command);
             
         }
         [HttpPost]
