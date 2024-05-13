@@ -1,23 +1,34 @@
 ﻿using CMS.Application.UseCases.Auth;
+using CMS.Application.UseCases.EmailService;
 using CMS.Application.UseCases.TeacherCases.Commands;
 using CMS.Domain.Entities.Auth;
 using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
 {
-    public class RegisterTeacherCommandHanlder : IRequestHandler<RegisterTeacherCommand, ResponseModel>
+    public class RegisterTeacherCommandHandler : IRequestHandler<RegisterTeacherCommand, ResponseModel>
     {
         private readonly UserManager<User> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAuthServise _authService;
+        private readonly IEmailService _emailSender;
+
+        public RegisterTeacherCommandHandler(UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, IAuthServise authServise, IEmailService emailSender)
+        {
+            _authService = authServise;
+            _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
+            _emailSender = emailSender;
+        }
+
         public async Task<ResponseModel> Handle(RegisterTeacherCommand request, CancellationToken cancellationToken)
         {
             var userExists = await _userManager.FindByEmailAsync(request.Email);
@@ -30,6 +41,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
                     IsSuccess = false
                 };
             }
+
             var photo = request.Photo;
             var pdf = request.PDF;
             string PDFFileName = "";
@@ -64,11 +76,35 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
                     IsSuccess = false
                 };
             }
+
+            var Password = new Random().Next(100000, 999999).ToString();
+
+            try
+            {
+                var emailBody = $"Dear {request.FirstName},\n\nThank you for registering as a teacher. Your password is: {Password}.\n\nBest regards,\nThe CMS Team";
+
+                await _emailSender.SendEmailAsync(new EmailModel
+                {
+                    To = request.Email,
+                    Subject = "Registration Confirmation",
+                    Body = emailBody
+                });
+            }
+            catch
+            {
+                return new ResponseModel()
+                {
+                    Message = $"Failed to send password to email",
+                    StatusCode = 500,
+                    IsSuccess = false
+                };
+            }
+
             var newTeacher = new Teacher()
             {
                 UserName = request.FirstName + request.LastName,
                 FirstName = request.FirstName,
-                LastName = request  .LastName,
+                LastName = request.LastName,
                 Gender = request.Gender,
                 SubjectId = request.SubjectId,
                 Location = request.Location,
@@ -79,7 +115,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
                 Role = "Teacher"
             };
 
-            var result = await _userManager.CreateAsync(newTeacher, request.Password);
+            var result = await _userManager.CreateAsync(newTeacher, Password);
 
             if (!result.Succeeded)
             {
@@ -92,10 +128,10 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
             }
 
             var res = await _userManager.AddToRoleAsync(newTeacher, "Teacher");
-            Console.WriteLine();
+
             return new ResponseModel()
             {
-                Message = "Succesfully registered",
+                Message = "Successfully registered",
                 StatusCode = 203,
                 IsSuccess = true
             };

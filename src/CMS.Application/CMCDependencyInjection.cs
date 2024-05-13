@@ -1,5 +1,8 @@
 ﻿using CMS.Application.UseCases.Auth;
+using CMS.Application.UseCases.EmailService;
+using EmailSenderApp.Application.Services.EmailServces;
 using MediatR;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,7 @@ namespace CMS.Application
         public static IServiceCollection AddCMSApplication(this IServiceCollection services)
         {
             services.AddScoped<IAuthServise, AuthServise>();
+            services.AddScoped<IEmailService, EmailServise>();
             services.AddMediatR(Assembly.GetExecutingAssembly());
             return services;
         }
