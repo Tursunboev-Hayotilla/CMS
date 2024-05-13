@@ -1,4 +1,5 @@
 ﻿using CMS.Application.UseCases.Auth;
+using CMS.Application.UseCases.StudentCases.Commands;
 using CMS.Application.UseCases.TeacherCases.Commands;
 using CMS.Domain.Entities.Auth;
 using CMS.Domain.Entities.Models;
@@ -27,6 +28,11 @@ namespace CMS.API.Controllers
         {
            return await _mediatr.Send(command);
             
+        }
+        [HttpPost]
+        public async Task<ResponseModel> StudentRegister(RegisterStudentCommand command)
+        {
+            return await _mediatr.Send(command);
         }
         [HttpPost]
         public async Task<IActionResult> Login(LoginDTO loginDTO)
