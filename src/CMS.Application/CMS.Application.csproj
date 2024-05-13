@@ -9,6 +9,8 @@
 	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.4.0" />
 		<Folder Include="Abstractions\" />
+		<Folder Include="UseCases\EmployeeCases\Handlers\QueryHandlers\" />
+		<Folder Include="UseCases\EmployeeCases\Queries\" />
 		<Folder Include="UseCases\QuizeCases\Handlers\CommandHandlers\" />
 		<Folder Include="UseCases\QuizeCases\Handlers\QueryHandlers\" />
 		<Folder Include="UseCases\QuizeCases\Queries\" />

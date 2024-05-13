@@ -15,7 +15,6 @@ namespace CMS.Domain.Entities.Auth
         public string? PhotoPath { get; set; }
         public virtual Location Location { get; set; }
         public string? PDFPath { get; set; }
-        public string Role { get; set; } = "HeadTeacher";
        
     }
 }
