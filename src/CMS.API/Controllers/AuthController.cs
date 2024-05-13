@@ -1,4 +1,5 @@
 ﻿using CMS.Application.UseCases.Auth;
+using CMS.Application.UseCases.EmployeeCases.Commands;
 using CMS.Application.UseCases.StudentCases.Commands;
 using CMS.Application.UseCases.TeacherCases.Commands;
 using CMS.Domain.Entities.Auth;
@@ -35,12 +36,24 @@ namespace CMS.API.Controllers
             return await _mediatr.Send(command);
         }
         [HttpPost]
+        public async Task<ResponseModel> EmployeeRegister(RegisterEmployeeCommand command)
+        {
+            return await _mediatr.Send(command);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
             if(user == null)
             {
-                throw new Exception();
+                return Ok(new ResponseModel()
+                {
+                    Message = "User not found",
+                    IsSuccess = false,
+                    StatusCode = 404
+                });
+               
             }
             var checker = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
             if (!checker)

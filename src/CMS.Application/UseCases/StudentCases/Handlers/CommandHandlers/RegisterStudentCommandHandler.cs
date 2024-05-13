@@ -102,6 +102,7 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 DateOfBirth = request.DateOfBirth,
+                Email = request.Email,
                 ClassId = request.ClassId,
                 PhoneNumber = request.PhoneNumber,
                 ParentsPhoneNumber = request.ParentsPhoneNumber,
@@ -109,6 +110,7 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
                 PhotoPath = "/StudentPhoto/" + PhotoFileName,
                 PDFPath = "Student/"+ PDFFileName,
                 Role = "Student"
+                
             };
             var res = await _userManager.CreateAsync(newStudent, Password);
             if (!res.Succeeded)
