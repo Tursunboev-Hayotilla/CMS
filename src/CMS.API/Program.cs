@@ -2,6 +2,11 @@ using CMS.Infrastructure;
 using CMS.Application;
 using CMS.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 using CMS.Infrastructure.Persistance;
 
 namespace CMS.API
@@ -21,9 +26,16 @@ namespace CMS.API
             builder.Services.AddCMSApplication();
             builder.Services.AddCMSInfrastructure(builder.Configuration);
 
-            builder.Services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<CMSDbContext>()
-                .AddDefaultTokenProviders();
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false; 
+                options.Password.RequireUppercase = false; 
+                options.Password.RequiredLength = 6; 
+            })
+            .AddEntityFrameworkStores<CMSDbContext>()
+            .AddDefaultTokenProviders();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -62,9 +74,8 @@ namespace CMS.API
                 }
             }
 
-            await app.RunAsync(); 
+            await app.RunAsync();
         }
 
     }
 }
-
