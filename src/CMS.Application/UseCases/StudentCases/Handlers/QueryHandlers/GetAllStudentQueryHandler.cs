@@ -23,5 +23,5 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.QueryHandlers
         {
             return await _context.Students.OrderByDescending(s => s.Coin).ToListAsync(cancellationToken);
         }
-    }
+    } 
 }
