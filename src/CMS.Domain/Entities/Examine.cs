@@ -10,9 +10,10 @@ namespace CMS.Domain.Entities
 
         /*// Shuni nma qilishini chunmadim to'grisi
         public string Result { get; set; }*/
-        public Guid SubjectId { get; set; }
+        public Guid? SubjectId { get; set; }
+        public Guid? ClassId { get; set; } 
         public virtual CustomeDate Date { get; set; }
         public virtual Subject Subject { get; set; }
         public virtual Class Class { get; set; }
     }
-}
+}   

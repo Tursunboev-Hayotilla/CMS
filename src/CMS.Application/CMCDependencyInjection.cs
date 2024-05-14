@@ -1,6 +1,5 @@
 ﻿using CMS.Application.UseCases.Auth;
 using CMS.Application.UseCases.EmailService;
-using EmailSenderApp.Application.Services.EmailServces;
 using MediatR;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.DependencyInjection;
