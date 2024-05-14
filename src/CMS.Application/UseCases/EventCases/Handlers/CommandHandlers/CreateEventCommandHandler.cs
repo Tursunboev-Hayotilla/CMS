@@ -56,6 +56,7 @@ namespace CMS.Application.UseCases.EventCases.Handlers.CommandHandlers
                 PhotoPath = "/Events/" + photoName
             };
             var res = await _context.Events.AddAsync(newEvent);
+            await _context.SaveChangesAsync(cancellationToken);
             return new ResponseModel()
             {
                 Message = "Succesfully created",
