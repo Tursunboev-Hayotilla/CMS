@@ -22,19 +22,13 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.QueryHandlers
         }
         public async Task<Teacher> Handle(GetByIdTeacherQuery request, CancellationToken cancellationToken)
         {
-            try
+            var teacher = await _context.Teachers.FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (teacher == null)
             {
-                Teacher teacher = await _context.Teachers.FirstOrDefaultAsync(a => a.Id == request.Id.ToString());
-                if (teacher == null)
-                {
-                    throw new Exception("Not Found");
-                }
-                return teacher;
+                return null;
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error❗");
-            }
+            return teacher;
+
         }
     }
 

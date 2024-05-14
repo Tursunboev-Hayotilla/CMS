@@ -11,7 +11,5 @@ namespace CMS.Application.UseCases.TeacherCases.Queries
 {
     public class GetAllTeacherQuery : IRequest<IEnumerable<Teacher>>
     {
-        public int PageIndex { get; set; }
-        public int Count { get; set; }
     }
 }

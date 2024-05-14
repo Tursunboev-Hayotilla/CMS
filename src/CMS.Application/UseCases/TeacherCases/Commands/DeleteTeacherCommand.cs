@@ -10,6 +10,6 @@ namespace CMS.Application.UseCases.TeacherCases.Commands
 {
     public class DeleteTeacherCommand : IRequest<ResponseModel>
     {
-        public Guid Id { get; set; } = new Guid();
+        public string Id { get; set; }
     }
 }

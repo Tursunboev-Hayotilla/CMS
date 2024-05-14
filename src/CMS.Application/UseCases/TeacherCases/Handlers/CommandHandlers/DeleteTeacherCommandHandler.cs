@@ -27,7 +27,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
         {
             try
             {
-                Teacher teacher = await _context.Teachers.FirstOrDefaultAsync(a => a.Id == request.Id.ToString());
+                var teacher = await _context.Teachers.FirstOrDefaultAsync(x => x.Id == request.Id);
                 if(teacher == null)
                 {
                     return new ResponseModel
@@ -37,6 +37,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
                     };
                 }
                 _context.Teachers.Remove(teacher);
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return new ResponseModel
                 {

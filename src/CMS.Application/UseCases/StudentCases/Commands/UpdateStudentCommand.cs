@@ -1,4 +1,5 @@
-﻿using CMS.Domain.Entities.Enums;
+﻿using CMS.Domain.Entities;
+using CMS.Domain.Entities.Enums;
 using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace CMS.Application.UseCases.StudentCases.Commands
         public string LastName { get; set; }
         public Gender? Gender { get; set; }
         public DateTimeOffset DateOfBirth { get; set; }
+        public Location Location { get; set; }
         public string ParentsPhoneNumber { get; set; }
         public Guid? ClassId { get; set; }
         public IFormFile? Photo { get; set; }
