@@ -22,7 +22,6 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.QueryHandlers
         public async Task<IEnumerable<Student>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
         {
             return await _context.Students.OrderByDescending(s => s.Coin).ToListAsync(cancellationToken); 
-
         }
     } 
 }
