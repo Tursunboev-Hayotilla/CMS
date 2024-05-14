@@ -11,9 +11,6 @@
 		<Folder Include="Abstractions\" />
 		<Folder Include="UseCases\EmployeeCases\Handlers\QueryHandlers\" />
 		<Folder Include="UseCases\EmployeeCases\Queries\" />
-		<Folder Include="UseCases\QuizeCases\Handlers\CommandHandlers\" />
-		<Folder Include="UseCases\QuizeCases\Handlers\QueryHandlers\" />
-		<Folder Include="UseCases\QuizeCases\Queries\" />
 		<Folder Include="UseCases\QuizCases\Handlers\CommandHandlers\" />
 		<Folder Include="UseCases\QuizCases\Handlers\QueryHandlers\" />
 		<Folder Include="UseCases\QuizCases\Queries\" />
