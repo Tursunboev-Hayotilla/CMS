@@ -1,5 +1,4 @@
-﻿using CMS.Domain.Entities;
-using CMS.Domain.Entities.Auth;
+﻿using CMS.Domain.Entities.Auth;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.TeacherCases.Queries
 {
-    public class GetByIdTeacherQuery : IRequest<Teacher>
+    public class GetAllTeachersBySubjectQuery : IRequest<IEnumerable<Teacher>>
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

@@ -43,6 +43,7 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
             student.DateOfBirth = request.DateOfBirth;
             student.ParentsPhoneNumber = request.ParentsPhoneNumber;
             student.ClassId = request.ClassId;
+            student.Location = request.Location;
 
             if (request.Photo != null)
             {
