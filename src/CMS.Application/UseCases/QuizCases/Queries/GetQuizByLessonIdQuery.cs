@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.QuizCases.Queries
 {
-    public class GetAllQuizQuery:IRequest<IEnumerable<Quiz>>
+    public class GetQuizByLessonIdQuery:IRequest<Quiz>
     {
+        public Guid LessonId { get; set; }
     }
 }

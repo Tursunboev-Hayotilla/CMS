@@ -12,8 +12,6 @@
 		<Folder Include="UseCases\EmployeeCases\Handlers\QueryHandlers\" />
 		<Folder Include="UseCases\EmployeeCases\Queries\" />
 		<Folder Include="UseCases\QuizCases\Handlers\CommandHandlers\" />
-		<Folder Include="UseCases\QuizCases\Handlers\QueryHandlers\" />
-		<Folder Include="UseCases\QuizCases\Queries\" />
 	</ItemGroup>
 
 	<ItemGroup>

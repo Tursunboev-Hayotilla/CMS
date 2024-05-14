@@ -24,7 +24,7 @@ namespace CMS.Application.UseCases.QuizCases.Handlers.CommandHandlers
         {
             try
             {
-                Quiz quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == request.Id);
+                var quiz = await _context.Quizzes.FirstOrDefaultAsync(q => q.Id == request.Id);
                 if (quiz == null)
                 {
                     return new ResponseModel
