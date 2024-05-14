@@ -3,6 +3,7 @@ using System;
 using CMS.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CMS.Infrastructure.Migrations
 {
     [DbContext(typeof(CMSDbContext))]
-    partial class CMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514094959_dfgyte")]
+    partial class dfgyte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,8 +344,9 @@ namespace CMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<char>("CorrectAnswer")
-                        .HasColumnType("character(1)");
+                    b.Property<string>("CorrectAnswer")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("DescriptionPhotoPath")
                         .HasColumnType("text");
@@ -363,10 +367,6 @@ namespace CMS.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("OptionsD")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Question")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("SubjectId")

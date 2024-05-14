@@ -11,25 +11,16 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.QuizCases.Handlers.QueryHandlers
 {
-    public class GetAllQuizQueryHandler : IRequestHandler<GetAllQuizQuery, IEnumerable<Quiz>>
+    public class GetQuizByLessonId : IRequestHandler<GetQuizByLessonIdQuery, Quiz>
     {
         private readonly ICMSDbContext _context;
-
-        public GetAllQuizQueryHandler(ICMSDbContext context)
+        public GetQuizByLessonId(ICMSDbContext context)
         {
             _context = context;
         }
-
-        public async Task<IEnumerable<Quiz>> Handle(GetAllQuizQuery request, CancellationToken cancellationToken)
+        public async Task<Quiz> Handle(GetQuizByLessonIdQuery request, CancellationToken cancellationToken)
         {
-            try
-            {
-                return await _context.Quizzes.ToListAsync();
-            }
-            catch       
-            {
-                return null;
-            }
+            return await _context.Quizzes.FirstOrDefaultAsync(x => x.LessonId == request.LessonId);
         }
     }
 }
