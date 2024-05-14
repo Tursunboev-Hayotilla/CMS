@@ -1,5 +1,4 @@
 ﻿using CMS.Application.Abstractions;
-using CMS.Application.UseCases.EventCases.Queries;
 using CMS.Application.UseCases.StudentCases.Queries;
 using CMS.Domain.Entities.Auth;
 using MediatR;
@@ -12,16 +11,16 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.StudentCases.Handlers.QueryHandlers
 {
-    public class GetAllStudentQueryHandler : IRequestHandler<GetAllStudentsQuery, IEnumerable<Student>>
+    public class GetStudentsByClassIdQueryHandler : IRequestHandler<GetStudentsByClassIdQuery, IEnumerable<Student>>
     {
         private readonly ICMSDbContext _context;
-        public GetAllStudentQueryHandler(ICMSDbContext context)
+        public GetStudentsByClassIdQueryHandler(ICMSDbContext context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<Student>> Handle(GetAllStudentsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Student>> Handle(GetStudentsByClassIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Students.OrderByDescending(s => s.Coin).ToListAsync(cancellationToken);
+            return await _context.Students.Where(x => x.ClassId == request.Id).ToListAsync();
         }
     }
 }

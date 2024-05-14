@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.StudentCases.Commands
 {
-    public class DeleteStudentCommand:IRequest<ResponseModel>
+    public class AddCoinsCommand:IRequest<ResponseModel>
     {
         public string Id { get; set; }
+        public int Coin {  get; set; }
     }
 }
