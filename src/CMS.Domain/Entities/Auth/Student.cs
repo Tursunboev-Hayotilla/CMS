@@ -16,11 +16,10 @@ namespace CMS.Domain.Entities.Auth
         public int Coin { get; set; } = 0;
         public string ParentsPhoneNumber { get; set; }
         public Guid? ClassId { get; set; }
-        public virtual Class Class { get; set; }
-        public virtual Location Location { get; set; }
         public string? PhotoPath { get; set; }
         public string? PDFPath { get; set; }
-
+        public virtual Class Class { get; set; }
+        public virtual Location Location { get; set; }
        
     }
 }

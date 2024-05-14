@@ -11,21 +11,16 @@ using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.StudentCases.Handlers.QueryHandlers
 {
-    public class GetByIdStudentQueryHandler : IRequestHandler<GetStudentByIdQuery, Student>
+    public class GetStudentsByClassIdQueryHandler : IRequestHandler<GetStudentsByClassIdQuery, IEnumerable<Student>>
     {
         private readonly ICMSDbContext _context;
-        public GetByIdStudentQueryHandler(ICMSDbContext context)
+        public GetStudentsByClassIdQueryHandler(ICMSDbContext context)
         {
             _context = context;
         }
-        public async Task<Student> Handle(GetStudentByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Student>> Handle(GetStudentsByClassIdQuery request, CancellationToken cancellationToken)
         {
-            var res = await _context.Students.FirstOrDefaultAsync(x=> x.Id == request.Id);
-            if (res == null)
-            {
-                return null;
-            }
-            return res;
+            return await _context.Students.Where(x => x.ClassId == request.Id).ToListAsync();
         }
     }
 }
