@@ -10,8 +10,8 @@
         public string? OptionsD { get; set; }
         public required string CorrectAnswer { get; set; }
         public string? DescriptionPhotoPath { get; set; }
-        public Guid LessonId { get; set; }
-        public Guid SubjectId { get; set; }
+        public Guid? LessonId { get; set; }
+        public Guid? SubjectId { get; set; }
 
         // Virtualarni UseCaseslarda ishlatmatmaymiz
         public virtual Lesson Lesson { get; set; }
