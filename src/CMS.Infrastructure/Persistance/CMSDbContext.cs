@@ -34,10 +34,12 @@ namespace CMS.Infrastructure.Persistance
                 .HasMany(c => c.Subjects)
                 .WithOne(s => s.Class)
                 .HasForeignKey(s => s.ClassId);
+
             modelBuilder.Entity<Attendance>()
-              .HasOne(a => a.Lesson)
-              .WithOne(l => l.Attendance)
-              .HasForeignKey<Lesson>(l => l.AttendanceId);
+                .HasOne(a => a.Lesson)
+                .WithOne(l => l.Attendance)
+                .HasForeignKey<Lesson>(l => l.AttendanceId);
         }
+
     }
 }
