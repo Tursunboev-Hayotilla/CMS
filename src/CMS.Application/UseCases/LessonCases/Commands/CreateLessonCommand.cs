@@ -11,7 +11,7 @@ namespace CMS.Application.UseCases.LessonCases.Commands
 {
     public class CreateLessonCommand:IRequest<ResponseModel>
     {
-        public string Theme { get; set; }
+      //  public string Theme { get; set; }
         public Day Day { get; set; }
         public CustomeTime FromTime { get; set; }
         public CustomeTime ToTime { get; set;}

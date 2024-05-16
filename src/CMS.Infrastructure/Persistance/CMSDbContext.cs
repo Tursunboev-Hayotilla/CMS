@@ -12,7 +12,6 @@ namespace CMS.Infrastructure.Persistance
         public CMSDbContext(DbContextOptions<CMSDbContext> options) : base(options)
         {
         }
-
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Event> Events { get; set; }
@@ -26,6 +25,8 @@ namespace CMS.Infrastructure.Persistance
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<StudentAppraciate> StudentAppraciates { get; set; }
+
         public DbSet<StudentAttendance> StudentAttendances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

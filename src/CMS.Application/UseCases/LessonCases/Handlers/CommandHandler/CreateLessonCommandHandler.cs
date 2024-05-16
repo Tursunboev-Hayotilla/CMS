@@ -22,7 +22,7 @@ namespace CMS.Application.UseCases.LessonCases.Handlers.CommandHandler
         {
             var newLesson = new Lesson()
             {
-                Theme = request.Theme,
+               // Theme = request.Theme,
                 Day = request.Day,
                 FromTime = request.FromTime,
                 ToTime = request.ToTime,

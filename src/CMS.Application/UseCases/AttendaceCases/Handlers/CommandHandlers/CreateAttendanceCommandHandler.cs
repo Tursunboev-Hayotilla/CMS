@@ -30,11 +30,13 @@ namespace CMS.Application.UseCases.AttendaceCases.Handlers.CommandHandlers
                 {
                     StudentId = student.Id,
                     LessonId = request.LessonId,
-                    IsPresent = request.IsPresent 
+                    IsPresent = request.IsPresent
                 };
-
                 _context.StudentAttendances.Add(attendance);
             }
+            var les = await _context.Lessons.FirstOrDefaultAsync(x => x.Id == request.LessonId);
+            les.Theme = request.Theme;
+            _context.Lessons.Update(les);
 
             await _context.SaveChangesAsync(cancellationToken);
 

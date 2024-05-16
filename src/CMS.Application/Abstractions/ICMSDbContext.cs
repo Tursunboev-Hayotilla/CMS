@@ -26,6 +26,7 @@ namespace CMS.Application.Abstractions
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<StudentAppraciate> StudentAppraciates { get; set; }
         public DbSet<StudentAttendance> StudentAttendances { get; set; }
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
