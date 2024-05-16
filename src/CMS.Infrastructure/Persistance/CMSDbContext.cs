@@ -1,6 +1,7 @@
 ﻿using CMS.Application.Abstractions;
 using CMS.Domain.Entities;
 using CMS.Domain.Entities.Auth;
+using CMS.Domain.Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,21 +26,17 @@ namespace CMS.Infrastructure.Persistance
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<StudentAttendance> StudentAttendances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Class>()
-                .HasMany(c => c.Subjects)
-                .WithOne(s => s.Class)
-                .HasForeignKey(s => s.ClassId);
+            modelBuilder.Entity<StudentAttendance>()
+                .HasOne(sa => sa.Lesson)
+                .WithMany(l => l.StudentAttendances)
+                .HasForeignKey(sa => sa.LessonId);
 
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Lesson)
-                .WithOne(l => l.Attendance)
-                .HasForeignKey<Lesson>(l => l.AttendanceId);
         }
-
     }
 }
