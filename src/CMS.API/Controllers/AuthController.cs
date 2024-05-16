@@ -1,4 +1,5 @@
 ﻿using CMS.Application.UseCases.Auth;
+using CMS.Application.UseCases.Auth.ForgotPasswordCases;
 using CMS.Application.UseCases.EmployeeCases.Commands;
 using CMS.Application.UseCases.StudentCases.Commands;
 using CMS.Application.UseCases.TeacherCases.Commands;
@@ -7,6 +8,7 @@ using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace CMS.API.Controllers
 {
@@ -40,7 +42,11 @@ namespace CMS.API.Controllers
         {
             return await _mediatr.Send(command);
         }
-
+        [HttpPost]
+        public async Task<ResponseModel> ForgotPassword(string email)
+        {
+            return await _mediatr.Send(new ForgotPasswordCommand() { Email = email });
+        }
         [HttpPost]
         public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
@@ -63,5 +69,6 @@ namespace CMS.API.Controllers
             var token = await _authServise.GenerateToken(user);
             return Ok(token);
         }
+        
     }
 }
