@@ -106,6 +106,7 @@ namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
                 PhoneNumber = request.PhoneNumber,
                 Location = request.Location,
                 Gender = request.Gender,
+                BirthDate = request.BirthDate,
                 PDFPath = "/EmployeePDF/"+PDFFileName,
                 PhotoPath = "/EmployeePhoto"+PhotoFileName,
                 Role = "HeadTeacher"

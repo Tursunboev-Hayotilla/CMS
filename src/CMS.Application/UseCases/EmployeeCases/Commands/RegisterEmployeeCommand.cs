@@ -17,6 +17,7 @@ namespace CMS.Application.UseCases.EmployeeCases.Commands
         public string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        public CustomeDate BirthDate { get; set; }
         public Location Location { get; set; }
         public Gender Gender { get; set; }
         public IFormFile Photo { get; set; }

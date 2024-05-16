@@ -107,6 +107,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
                 LastName = request.LastName,
                 Gender = request.Gender,
                 SubjectId = request.SubjectId,
+                BirthDate = request.BirthDate,
                 Location = request.Location,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,

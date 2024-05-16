@@ -25,6 +25,8 @@ namespace CMS.Infrastructure.Persistance
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<ExamAppraciateStudent> ExamAppraciates { get; set; }
+
         public DbSet<StudentAppraciate> StudentAppraciates { get; set; }
 
         public DbSet<StudentAttendance> StudentAttendances { get; set; }

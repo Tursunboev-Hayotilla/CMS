@@ -17,7 +17,7 @@ namespace CMS.Application.UseCases.StudentCases.Commands
         public string LastName { get; set; }
         public string Email { get; set; }
         public Gender Gender { get; set; }
-        public DateTimeOffset DateOfBirth { get; set; }
+        public CustomeDate DateOfBirth { get; set; }
         public IFormFile Photo { get; set; }
         public IFormFile PDF { get; set; }
         public Location Location { get; set; }
