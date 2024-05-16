@@ -9,11 +9,10 @@ namespace CMS.Domain.Entities
     public class Homework
     {
         public Guid Id { get; set; }
-        // Shuni nma qilishini chunmadim to'grisi
-        public string Result { get; set; }
-        public int Coin { get; set; }
-        public required DateTimeOffset StartDate { get; set; }
-        public required DateTimeOffset EndDate { get; set;}
+        public string TZ { get; set; }
+        // For 2 verion
+       /* public required DateTimeOffset StartDate { get; set; }
+        public required DateTimeOffset EndDate { get; set;}*/
         public Guid LessonId { get; set; }
         public virtual Lesson Lesson { get; set; }
 
