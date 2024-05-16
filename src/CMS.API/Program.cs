@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using CMS.Infrastructure.Persistance;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CMS.API
 {
@@ -30,14 +32,19 @@ namespace CMS.API
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false; 
-                options.Password.RequireUppercase = false; 
-                options.Password.RequiredLength = 6; 
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
             })
             .AddEntityFrameworkStores<CMSDbContext>()
             .AddDefaultTokenProviders();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -76,6 +83,5 @@ namespace CMS.API
 
             await app.RunAsync();
         }
-
     }
 }

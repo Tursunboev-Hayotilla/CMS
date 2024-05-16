@@ -9,8 +9,8 @@ namespace CMS.Domain.Entities
         public Guid Id { get; set; }
         public string Theme { get; set; }
         public Day? Day { get; set; }
-        public TimeOnly? FromTime { get; set; }
-        public TimeOnly? ToTime { get; set; }
+        public virtual CustomeTime? FromTime { get; set; }
+        public virtual CustomeTime? ToTime { get; set; }
         public Guid? ClassId { get; set; }
         public Guid? SubjectId { get; set; }
         public Guid? AttendanceId { get; set; }

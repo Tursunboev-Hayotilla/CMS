@@ -3,6 +3,7 @@ using System;
 using CMS.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CMS.Infrastructure.Migrations
 {
     [DbContext(typeof(CMSDbContext))]
-    partial class CMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516084624_dfg")]
+    partial class dfg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,8 +262,8 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<int?>("Day")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("FromTimeId")
-                        .HasColumnType("uuid");
+                    b.Property<TimeOnly?>("FromTime")
+                        .HasColumnType("time without time zone");
 
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uuid");
@@ -273,8 +276,8 @@ namespace CMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ToTimeId")
-                        .HasColumnType("uuid");
+                    b.Property<TimeOnly?>("ToTime")
+                        .HasColumnType("time without time zone");
 
                     b.HasKey("Id");
 
@@ -283,13 +286,9 @@ namespace CMS.Infrastructure.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("FromTimeId");
-
                     b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
-
-                    b.HasIndex("ToTimeId");
 
                     b.ToTable("Lessons");
                 });
@@ -338,23 +337,6 @@ namespace CMS.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CustomeDate");
-                });
-
-            modelBuilder.Entity("CMS.Domain.Entities.Models.CustomeTime", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Hour")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Minute")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomeTime");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Models.StudentAttendance", b =>
@@ -810,10 +792,6 @@ namespace CMS.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ClassId");
 
-                    b.HasOne("CMS.Domain.Entities.Models.CustomeTime", "FromTime")
-                        .WithMany()
-                        .HasForeignKey("FromTimeId");
-
                     b.HasOne("CMS.Domain.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId");
@@ -824,21 +802,13 @@ namespace CMS.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CMS.Domain.Entities.Models.CustomeTime", "ToTime")
-                        .WithMany()
-                        .HasForeignKey("ToTimeId");
-
                     b.Navigation("Attendance");
 
                     b.Navigation("Class");
 
-                    b.Navigation("FromTime");
-
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
-
-                    b.Navigation("ToTime");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Models.StudentAttendance", b =>

@@ -40,7 +40,7 @@ namespace CMS.API.Controllers
             return await _mediatr.Send(new GetLessonByIdQuery() { Id = id });
         }
         [HttpPost]
-        public async Task<ResponseModel> CreateLesson([FromForm] CreateLessonCommand command)
+        public async Task<ResponseModel> CreateLesson(CreateLessonCommand command)
         {
             return await _mediatr.Send(command);
         }

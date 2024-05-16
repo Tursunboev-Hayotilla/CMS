@@ -28,7 +28,6 @@ namespace CMS.Application.UseCases.LessonCases.Handlers.CommandHandler
                 ToTime = request.ToTime,
                 ClassId = request.ClassId,
                 SubjectId = request.SubjectId,
-                AttendanceId = request.AttendanceId,
                 TeacherId = request.TeacherId
             };
             var res = await _context.Lessons.AddAsync(newLesson);
