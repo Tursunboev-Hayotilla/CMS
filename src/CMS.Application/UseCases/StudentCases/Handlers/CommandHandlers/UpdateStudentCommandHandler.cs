@@ -3,6 +3,7 @@ using CMS.Application.UseCases.StudentCases.Commands;
 using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.IO;
 using System.Threading;
@@ -14,16 +15,16 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
     {
         private readonly ICMSDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
-
-        public UpdateStudentCommandHandler(ICMSDbContext context, IWebHostEnvironment webHostEnvironment)
+        private readonly IMemoryCache _memoryCache;
+        public UpdateStudentCommandHandler(ICMSDbContext context, IWebHostEnvironment webHostEnvironment,IMemoryCache memoryCache)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _memoryCache = memoryCache;
         }
 
         public async Task<ResponseModel> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
         {
-            // Find the student by Id
             var student = await _context.Students.FindAsync(request.Id);
 
             if (student == null)
@@ -80,7 +81,7 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
             }
 
             await _context.SaveChangesAsync(cancellationToken);
-
+            _memoryCache.Remove("allstudents");
             return new ResponseModel()
             {
                 Message = "Student updated successfully",

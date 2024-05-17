@@ -17,7 +17,7 @@ namespace CMS.Application.UseCases.StudentCases.Commands
         public string FirsName { get; set; }
         public string LastName { get; set; }
         public Gender? Gender { get; set; }
-        public DateTimeOffset DateOfBirth { get; set; }
+        public CustomeDate DateOfBirth { get; set; }
         public Location Location { get; set; }
         public string ParentsPhoneNumber { get; set; }
         public Guid? ClassId { get; set; }

@@ -6,6 +6,7 @@ using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAuthServise _authService;
         private readonly IEmailService _emailSender;
+        private readonly IMemoryCache _memoryCache;
         public RegisterStudentCommandHandler(UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, IAuthServise authServise, IEmailService emailSender)
         {
             _authService = authServise;
@@ -115,6 +117,7 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
             var res = await _userManager.CreateAsync(newStudent, Password);
             if (!res.Succeeded)
             {
+                _memoryCache.Remove("allstudents");
                 return new ResponseModel()
                 {
                     Message = "Something went wrong",
