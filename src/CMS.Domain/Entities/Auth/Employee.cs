@@ -14,7 +14,7 @@ namespace CMS.Domain.Entities.Auth
     {
         public Gender Gender { get; set; }
         public string? PhotoPath { get; set; }
-        public CustomeDate BirthDate { get; set; }
+        public virtual CustomeDate BirthDate { get; set; }
         public virtual Location Location { get; set; }
         public string? PDFPath { get; set; }
        

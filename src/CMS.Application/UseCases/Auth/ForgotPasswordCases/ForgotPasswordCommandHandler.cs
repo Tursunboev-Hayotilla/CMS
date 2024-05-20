@@ -37,8 +37,6 @@ namespace CMS.Application.UseCases.Auth.ForgotPasswordCases
             }
 
             var newPassword = new Random().Next(100000, 999999).ToString();
-
-            // Update the user's password
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
 

@@ -13,7 +13,7 @@ namespace CMS.Domain.Entities.Auth
     public class Student : User
     {
         public Gender? Gender { get; set; }
-        public CustomeDate DateOfBirth { get; set; }
+        public virtual CustomeDate DateOfBirth { get; set; }
         public int Coin { get; set; } = 0;
         public string ParentsPhoneNumber { get; set; }
         public Guid? ClassId { get; set; }
