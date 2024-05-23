@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
@@ -22,13 +21,16 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
         private readonly IAuthServise _authService;
         private readonly IEmailService _emailSender;
         private readonly IMemoryCache _memoryCache;
-        public RegisterStudentCommandHandler(UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, IAuthServise authServise, IEmailService emailSender)
+
+        public RegisterStudentCommandHandler(UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, IAuthServise authService, IEmailService emailSender, IMemoryCache memoryCache)
         {
-            _authService = authServise;
+            _authService = authService;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             _emailSender = emailSender;
+            _memoryCache = memoryCache;
         }
+
         public async Task<ResponseModel> Handle(RegisterStudentCommand request, CancellationToken cancellationToken)
         {
             var userExists = await _userManager.FindByEmailAsync(request.Email);
@@ -44,27 +46,37 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
 
             var photo = request.Photo;
             var pdf = request.PDF;
-            string PDFFileName = "";
-            string PDFFilePath = "";
+            string PDFFileName = Guid.NewGuid().ToString() + Path.GetExtension(pdf.FileName);
+            string PDFFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "StudentPDF", PDFFileName);
 
-            string PhotoFileName = "";
-            string PhotoFilePath = "";
+            string PhotoFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+            string PhotoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "StudentPhoto", PhotoFileName);
 
             try
             {
-                PDFFileName = Guid.NewGuid().ToString() + Path.GetExtension(pdf.FileName);
-                PDFFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "StudentPDF", PDFFileName);
+                // Ensure the directories exist
+                var studentPDFDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "StudentPDF");
+                var studentPhotoDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "StudentPhoto");
 
-                PhotoFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-                PhotoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "StudentPhoto", PhotoFileName);
+                if (!Directory.Exists(studentPDFDirectory))
+                {
+                    Directory.CreateDirectory(studentPDFDirectory);
+                }
 
+                if (!Directory.Exists(studentPhotoDirectory))
+                {
+                    Directory.CreateDirectory(studentPhotoDirectory);
+                }
+
+                // Upload PDF and Photo
                 using (var stream = new FileStream(PDFFilePath, FileMode.Create))
                 {
                     await pdf.CopyToAsync(stream);
                 }
-                using (var Photostream = new FileStream(PhotoFilePath, FileMode.Create))
+
+                using (var photoStream = new FileStream(PhotoFilePath, FileMode.Create))
                 {
-                    await photo.CopyToAsync(Photostream);
+                    await photo.CopyToAsync(photoStream);
                 }
             }
             catch
@@ -93,11 +105,12 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
             {
                 return new ResponseModel()
                 {
-                    Message = $"Failed to send password to email",
+                    Message = "Failed to send password to email",
                     StatusCode = 500,
                     IsSuccess = false
                 };
             }
+
             var newStudent = new Student()
             {
                 UserName = request.LastName + request.FirstName,
@@ -110,14 +123,13 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
                 ParentsPhoneNumber = request.ParentsPhoneNumber,
                 Location = request.Location,
                 PhotoPath = "/StudentPhoto/" + PhotoFileName,
-                PDFPath = "Student/"+ PDFFileName,
+                PDFPath = "/StudentPDF/" + PDFFileName,
                 Role = "Student"
-                
             };
+
             var res = await _userManager.CreateAsync(newStudent, Password);
             if (!res.Succeeded)
             {
-                _memoryCache.Remove("allstudents");
                 return new ResponseModel()
                 {
                     Message = "Something went wrong",
@@ -126,7 +138,9 @@ namespace CMS.Application.UseCases.StudentCases.Handlers.CommandHandlers
                 };
             }
 
-            var result = await _userManager.AddToRoleAsync(newStudent, "Student");
+            await _userManager.AddToRoleAsync(newStudent, "Student");
+
+            _memoryCache.Remove("allstudents");
 
             return new ResponseModel()
             {

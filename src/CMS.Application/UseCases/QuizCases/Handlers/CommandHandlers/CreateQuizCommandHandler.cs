@@ -6,9 +6,8 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.QuizCases.Handlers.CommandHandlers
@@ -16,25 +15,30 @@ namespace CMS.Application.UseCases.QuizCases.Handlers.CommandHandlers
     public class CreateQuizCommandHandler : IRequestHandler<CreateQuizCommand, ResponseModel>
     {
         private readonly ICMSDbContext _context;
-        private readonly IWebHostEnvironment _webhostEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         public CreateQuizCommandHandler(ICMSDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
-            _webhostEnvironment = webHostEnvironment;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<ResponseModel> Handle(CreateQuizCommand request, CancellationToken cancellationToken)
         {
             var photo = request.DescriptionPhoto;
-            string FileName = "";
-            string FilePath = "";
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+            string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Quiz", fileName);
 
             try
             {
-                FileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-                FilePath = Path.Combine(_webhostEnvironment.WebRootPath, "Quiz", FileName);
+                var quizDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "Quiz");
+                if (!Directory.Exists(quizDirectory))
+                {
+                    Directory.CreateDirectory(quizDirectory);
+                }
 
-                using (var stream = new FileStream(FilePath, FileMode.Create))
+                // Upload the photo
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await photo.CopyToAsync(stream);
                 }
@@ -48,11 +52,12 @@ namespace CMS.Application.UseCases.QuizCases.Handlers.CommandHandlers
                     IsSuccess = false
                 };
             }
+
             try
             {
                 Quiz quiz = request.Adapt<Quiz>();
-                quiz.DescriptionPhotoPath = "/Quiz/" + FileName;
-               var res = await _context.Quizzes.AddAsync(quiz);
+                quiz.DescriptionPhotoPath = "/Quiz/" + fileName;
+                await _context.Quizzes.AddAsync(quiz, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
 
                 return new ResponseModel

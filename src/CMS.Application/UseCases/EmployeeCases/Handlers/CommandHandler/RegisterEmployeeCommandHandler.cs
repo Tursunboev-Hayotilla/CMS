@@ -7,9 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
@@ -20,6 +19,7 @@ namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IAuthServise _authService;
         private readonly IEmailService _emailSender;
+
         public RegisterEmployeeCommandHandler(UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, IAuthServise authServise, IEmailService emailSender)
         {
             _authService = authServise;
@@ -27,6 +27,7 @@ namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
             _webHostEnvironment = webHostEnvironment;
             _emailSender = emailSender;
         }
+
         public async Task<ResponseModel> Handle(RegisterEmployeeCommand request, CancellationToken cancellationToken)
         {
             var userExists = await _userManager.FindByEmailAsync(request.Email);
@@ -42,24 +43,33 @@ namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
 
             var photo = request.Photo;
             var pdf = request.PDF;
-            string PDFFileName = "";
-            string PDFFilePath = "";
-
-            string PhotoFileName = "";
-            string PhotoFilePath = "";
+            string PDFFileName = Guid.NewGuid().ToString() + Path.GetExtension(pdf.FileName);
+            string PDFFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "EmployeePDF", PDFFileName);
+            string PhotoFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+            string PhotoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "EmployeePhoto", PhotoFileName);
 
             try
             {
-                PDFFileName = Guid.NewGuid().ToString() + Path.GetExtension(pdf.FileName);
-                PDFFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "EmployeePDF", PDFFileName);
+                // Ensure the directories exist
+                var pdfDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "EmployeePDF");
+                var photoDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "EmployeePhoto");
 
-                PhotoFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-                PhotoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "EmployeePhoto", PhotoFileName);
+                if (!Directory.Exists(pdfDirectory))
+                {
+                    Directory.CreateDirectory(pdfDirectory);
+                }
 
+                if (!Directory.Exists(photoDirectory))
+                {
+                    Directory.CreateDirectory(photoDirectory);
+                }
+
+                // Upload PDF and Photo
                 using (var stream = new FileStream(PDFFilePath, FileMode.Create))
                 {
                     await pdf.CopyToAsync(stream);
                 }
+
                 using (var Photostream = new FileStream(PhotoFilePath, FileMode.Create))
                 {
                     await photo.CopyToAsync(Photostream);
@@ -78,7 +88,7 @@ namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
             var Password = new Random().Next(100000, 999999).ToString();
             try
             {
-                var emailBody = $"Dear {request.FirstName},\n\nThank you for registering as a school stuff. Your password is: {Password}.\n\nBest regards,\nThe CMS Team";
+                var emailBody = $"Dear {request.FirstName},\n\nThank you for registering as a school staff. Your password is: {Password}.\n\nBest regards,\nThe CMS Team";
 
                 await _emailSender.SendEmailAsync(new EmailModel
                 {
@@ -91,7 +101,7 @@ namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
             {
                 return new ResponseModel()
                 {
-                    Message = $"Failed to send password to email",
+                    Message = "Failed to send password to email",
                     StatusCode = 500,
                     IsSuccess = false
                 };
@@ -107,12 +117,12 @@ namespace CMS.Application.UseCases.EmployeeCases.Handlers.CommandHandler
                 Location = request.Location,
                 Gender = request.Gender,
                 BirthDate = request.BirthDate,
-                PDFPath = "/EmployeePDF/"+PDFFileName,
-                PhotoPath = "/EmployeePhoto"+PhotoFileName,
+                PDFPath = "/EmployeePDF/" + PDFFileName,
+                PhotoPath = "/EmployeePhoto/" + PhotoFileName,
                 Role = "HeadTeacher"
             };
 
-            var res = await _userManager.CreateAsync(newEmployee,Password);
+            var res = await _userManager.CreateAsync(newEmployee, Password);
             if (!res.Succeeded)
             {
                 return new ResponseModel()

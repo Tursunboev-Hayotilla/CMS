@@ -4,11 +4,9 @@ using CMS.Domain.Entities;
 using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.EventCases.Handlers.CommandHandlers
@@ -23,31 +21,38 @@ namespace CMS.Application.UseCases.EventCases.Handlers.CommandHandlers
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
+
         public async Task<ResponseModel> Handle(CreateEventCommand request, CancellationToken cancellationToken)
         {
             var photo = request.Image;
-            string photoName = "";
-            string photoPath = "";
+            string photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+            string photoPath = Path.Combine(_webHostEnvironment.WebRootPath, "Events", photoName);
 
             try
             {
-                photoName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-                photoPath = Path.Combine(_webHostEnvironment.WebRootPath, "Events", photoName);
+                // Ensure the Events directory exists
+                var eventsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "Events");
+                if (!Directory.Exists(eventsDirectory))
+                {
+                    Directory.CreateDirectory(eventsDirectory);
+                }
 
+                // Upload the photo
                 using (var stream = new FileStream(photoPath, FileMode.Create))
                 {
                     await photo.CopyToAsync(stream);
                 }
             }
-            catch 
+            catch
             {
                 return new ResponseModel()
                 {
-                    Message = "Error while apploading the photo",
+                    Message = "Error while uploading the photo",
                     StatusCode = 500,
                     IsSuccess = false
                 };
             }
+
             var newEvent = new Event()
             {
                 Title = request.Title,
@@ -55,12 +60,14 @@ namespace CMS.Application.UseCases.EventCases.Handlers.CommandHandlers
                 Description = request.Description,
                 PhotoPath = "/Events/" + photoName
             };
-            var res = await _context.Events.AddAsync(newEvent);
+
+            await _context.Events.AddAsync(newEvent, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+
             return new ResponseModel()
             {
-                Message = "Succesfully created",
-                StatusCode = 203,
+                Message = "Successfully created",
+                StatusCode = 201,
                 IsSuccess = true,
             };
         }

@@ -21,9 +21,9 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
         private readonly IAuthServise _authService;
         private readonly IEmailService _emailSender;
 
-        public RegisterTeacherCommandHandler(UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, IAuthServise authServise, IEmailService emailSender)
+        public RegisterTeacherCommandHandler(UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, IAuthServise authService, IEmailService emailSender)
         {
-            _authService = authServise;
+            _authService = authService;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
             _emailSender = emailSender;
@@ -44,27 +44,35 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
 
             var photo = request.Photo;
             var pdf = request.PDF;
-            string PDFFileName = "";
-            string PDFFilePath = "";
+            string PDFFileName = Guid.NewGuid().ToString() + Path.GetExtension(pdf.FileName);
+            string PDFFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPDF", PDFFileName);
 
-            string PhotoFileName = "";
-            string PhotoFilePath = "";
+            string PhotoFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+            string PhotoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPhoto", PhotoFileName);
 
             try
             {
-                PDFFileName = Guid.NewGuid().ToString() + Path.GetExtension(pdf.FileName);
-                PDFFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPDF", PDFFileName);
+                var teacherPDFDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPDF");
+                var teacherPhotoDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPhoto");
 
-                PhotoFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
-                PhotoFilePath = Path.Combine(_webHostEnvironment.WebRootPath, "TeacherPhoto", PhotoFileName);
+                if (!Directory.Exists(teacherPDFDirectory))
+                {
+                    Directory.CreateDirectory(teacherPDFDirectory);
+                }
+
+                if (!Directory.Exists(teacherPhotoDirectory))
+                {
+                    Directory.CreateDirectory(teacherPhotoDirectory);
+                }
 
                 using (var stream = new FileStream(PDFFilePath, FileMode.Create))
                 {
                     await pdf.CopyToAsync(stream);
                 }
-                using (var Photostream = new FileStream(PhotoFilePath, FileMode.Create))
+
+                using (var photoStream = new FileStream(PhotoFilePath, FileMode.Create))
                 {
-                    await photo.CopyToAsync(Photostream);
+                    await photo.CopyToAsync(photoStream);
                 }
             }
             catch
@@ -94,7 +102,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
             {
                 return new ResponseModel()
                 {
-                    Message = $"Failed to send password to email",
+                    Message = "Failed to send password to email",
                     StatusCode = 500,
                     IsSuccess = false
                 };
@@ -128,7 +136,7 @@ namespace CMS.Application.UseCases.TeacherCases.Handlers.CommandHandlers
                 };
             }
 
-            var res = await _userManager.AddToRoleAsync(newTeacher, "Teacher");
+            await _userManager.AddToRoleAsync(newTeacher, "Teacher");
 
             return new ResponseModel()
             {

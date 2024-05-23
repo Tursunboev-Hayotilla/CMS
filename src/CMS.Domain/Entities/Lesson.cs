@@ -22,5 +22,6 @@ namespace CMS.Domain.Entities
         public virtual Attendance Attendance { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual ICollection<Quiz> Quizzes { get; set; }
+        // Ensure the directories exist
     }
 }
