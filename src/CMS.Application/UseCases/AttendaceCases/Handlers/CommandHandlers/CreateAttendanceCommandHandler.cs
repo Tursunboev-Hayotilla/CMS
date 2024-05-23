@@ -3,10 +3,7 @@ using CMS.Application.UseCases.AttendaceCases.Commands;
 using CMS.Domain.Entities.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CMS.Application.UseCases.AttendaceCases.Handlers.CommandHandlers
@@ -14,37 +11,55 @@ namespace CMS.Application.UseCases.AttendaceCases.Handlers.CommandHandlers
     public class CreateAttendanceCommandHandler : IRequestHandler<CreateAttendanceCommand, ResponseModel>
     {
         private readonly ICMSDbContext _context;
+
         public CreateAttendanceCommandHandler(ICMSDbContext context)
         {
             _context = context;
         }
+
         public async Task<ResponseModel> Handle(CreateAttendanceCommand request, CancellationToken cancellationToken)
         {
-            var students = await _context.Students
-                   .Where(s => s.ClassId == request.ClassId)
-                   .ToListAsync(cancellationToken);
+            var student = await _context.Students
+                .FirstOrDefaultAsync(s => s.Id == request.StudentId, cancellationToken);
 
-            foreach (var student in students)
+            if (student == null)
             {
-                var attendance = new StudentAttendance
+                return new ResponseModel
                 {
-                    StudentId = student.Id,
-                    LessonId = request.LessonId,
-                    IsPresent = request.IsPresent
+                    IsSuccess = false,
+                    Message = "Student not found.",
+                    StatusCode = 404
                 };
-                _context.StudentAttendances.Add(attendance);
             }
-            var les = await _context.Lessons.FirstOrDefaultAsync(x => x.Id == request.LessonId);
-            les.Theme = request.Theme;
-            _context.Lessons.Update(les);
+
+            var lesson = await _context.Lessons
+                .FirstOrDefaultAsync(x => x.Id == request.LessonId, cancellationToken);
+
+            if (lesson == null)
+            {
+                return new ResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "Lesson not found.",
+                    StatusCode = 404
+                };
+            }
+
+            var attendance = new StudentAttendance
+            {
+                StudentId = student.Id,
+                LessonId = lesson.Id,
+                IsPresent = request.IsPresent
+            };
+            _context.StudentAttendances.Add(attendance);
 
             await _context.SaveChangesAsync(cancellationToken);
 
             return new ResponseModel
             {
                 IsSuccess = true,
-                Message = "Attendance records created successfully.",
-                StatusCode = 203
+                Message = "Attendance record created successfully.",
+                StatusCode = 201
             };
         }
     }

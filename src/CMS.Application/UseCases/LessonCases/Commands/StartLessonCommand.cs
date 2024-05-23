@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMS.Application.UseCases.AttendaceCases.Commands
+namespace CMS.Application.UseCases.LessonCases.Commands
 {
-    public class CreateAttendanceCommand:IRequest<ResponseModel>
+    public class StartLessonCommand:IRequest<ResponseModel>
     {
         public Guid LessonId { get; set; }
-        public string StudentId { get; set; }
-        public bool IsPresent { get; set; }
+        public string Theme { get; set; }
     }
 }

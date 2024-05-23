@@ -44,6 +44,11 @@ namespace CMS.API.Controllers
         {
             return await _mediatr.Send(command);
         }
+        [HttpPost]
+        public async Task<ResponseModel> StartLesson(StartLessonCommand command)
+        {
+            return await _mediatr.Send(command);
+        }
         [HttpPut]
         public async Task<ResponseModel> UpdateLesson(UpdateLessonCommand command)
         {
