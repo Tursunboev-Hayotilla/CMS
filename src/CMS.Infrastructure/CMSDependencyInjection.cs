@@ -1,6 +1,7 @@
 ﻿using CMS.Application.Abstractions;
 using CMS.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +18,7 @@ namespace CMS.Infrastructure
         {
             services.AddDbContext<ICMSDbContext, CMSDbContext>(options =>
             {
+               
                 options.UseLazyLoadingProxies()
                 .UseNpgsql(configuration.GetConnectionString("Postgres"));
             });

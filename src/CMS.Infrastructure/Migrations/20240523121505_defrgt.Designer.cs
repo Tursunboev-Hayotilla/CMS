@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CMS.Infrastructure.Migrations
 {
     [DbContext(typeof(CMSDbContext))]
-    [Migration("20240513163509_test3")]
-    partial class test3
+    [Migration("20240523121505_defrgt")]
+    partial class defrgt
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,20 +34,17 @@ namespace CMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClassId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("DateId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("LessonId")
+                    b.Property<Guid>("StudentAttendanceId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.HasIndex("DateId");
+
+                    b.HasIndex("StudentAttendanceId");
 
                     b.ToTable("Attendances");
                 });
@@ -150,15 +147,13 @@ namespace CMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("TeacherId1")
+                    b.Property<string>("TeacherId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TeacherId1");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Classes");
                 });
@@ -196,7 +191,7 @@ namespace CMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClassId")
+                    b.Property<Guid?>("ClassId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Coin")
@@ -205,7 +200,7 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<Guid>("DateId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid?>("SubjectId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Task")
@@ -229,21 +224,15 @@ namespace CMS.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Coin")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTimeOffset>("EndDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<Guid>("LessonId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Result")
+                    b.Property<string>("Task")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTimeOffset>("StartDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("TaskPath")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -267,18 +256,21 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<int?>("Day")
                         .HasColumnType("integer");
 
-                    b.Property<TimeOnly?>("FromTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<Guid?>("FromTimeId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Theme")
+                    b.Property<string>("TeacherId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<TimeOnly?>("ToTime")
-                        .HasColumnType("time without time zone");
+                    b.Property<string>("Theme")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("ToTimeId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -287,7 +279,13 @@ namespace CMS.Infrastructure.Migrations
 
                     b.HasIndex("ClassId");
 
+                    b.HasIndex("FromTimeId");
+
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.HasIndex("ToTimeId");
 
                     b.ToTable("Lessons");
                 });
@@ -320,7 +318,7 @@ namespace CMS.Infrastructure.Migrations
 
             modelBuilder.Entity("CMS.Domain.Entities.Models.CustomeDate", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -338,20 +336,108 @@ namespace CMS.Infrastructure.Migrations
                     b.ToTable("CustomeDate");
                 });
 
+            modelBuilder.Entity("CMS.Domain.Entities.Models.CustomeTime", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Hour")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Minute")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomeTime");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Models.ExamAppraciateStudent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Coins")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("ExamAppraciates");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Models.StudentAppraciate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<byte?>("HomeworkCoin")
+                        .HasColumnType("smallint");
+
+                    b.Property<byte?>("LessonCoin")
+                        .HasColumnType("smallint");
+
+                    b.Property<Guid>("LessonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("studentId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudentAppraciates");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Models.StudentAttendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsPresent")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("LessonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentAttendances");
+                });
+
             modelBuilder.Entity("CMS.Domain.Entities.Quiz", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CorrectAnswer")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<char>("CorrectAnswer")
+                        .HasColumnType("character(1)");
 
                     b.Property<string>("DescriptionPhotoPath")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("LessonId")
+                    b.Property<Guid?>("LessonId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("OptionsA")
@@ -373,7 +459,7 @@ namespace CMS.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid?>("SubjectId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -573,6 +659,9 @@ namespace CMS.Infrastructure.Migrations
                 {
                     b.HasBaseType("CMS.Domain.Entities.Auth.User");
 
+                    b.Property<Guid>("BirthDateId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
 
@@ -585,10 +674,15 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<string>("PhotoPath")
                         .HasColumnType("text");
 
+                    b.HasIndex("BirthDateId");
+
                     b.HasIndex("LocationId");
 
                     b.ToTable("AspNetUsers", t =>
                         {
+                            t.Property("BirthDateId")
+                                .HasColumnName("Employee_BirthDateId");
+
                             t.Property("Gender")
                                 .HasColumnName("Employee_Gender");
 
@@ -615,8 +709,8 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<int>("Coin")
                         .HasColumnType("integer");
 
-                    b.Property<DateTimeOffset>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid>("DateOfBirthId")
+                        .HasColumnType("uuid");
 
                     b.Property<int?>("Gender")
                         .HasColumnType("integer");
@@ -635,6 +729,8 @@ namespace CMS.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("DateOfBirthId");
 
                     b.HasIndex("LocationId");
 
@@ -660,6 +756,9 @@ namespace CMS.Infrastructure.Migrations
                 {
                     b.HasBaseType("CMS.Domain.Entities.Auth.User");
 
+                    b.Property<Guid>("BirthDateId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
 
@@ -675,6 +774,8 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uuid");
 
+                    b.HasIndex("BirthDateId");
+
                     b.HasIndex("LocationId");
 
                     b.HasIndex("SubjectId");
@@ -684,28 +785,30 @@ namespace CMS.Infrastructure.Migrations
 
             modelBuilder.Entity("CMS.Domain.Entities.Attendance", b =>
                 {
-                    b.HasOne("CMS.Domain.Entities.Class", "Class")
-                        .WithMany("Attendances")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "Date")
                         .WithMany()
                         .HasForeignKey("DateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Class");
+                    b.HasOne("CMS.Domain.Entities.Models.StudentAttendance", "StudentAttendance")
+                        .WithMany()
+                        .HasForeignKey("StudentAttendanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Date");
+
+                    b.Navigation("StudentAttendance");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Class", b =>
                 {
                     b.HasOne("CMS.Domain.Entities.Auth.Teacher", "Teacher")
                         .WithMany()
-                        .HasForeignKey("TeacherId1");
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Teacher");
                 });
@@ -725,9 +828,7 @@ namespace CMS.Infrastructure.Migrations
                 {
                     b.HasOne("CMS.Domain.Entities.Class", "Class")
                         .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClassId");
 
                     b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "Date")
                         .WithMany()
@@ -737,9 +838,7 @@ namespace CMS.Infrastructure.Migrations
 
                     b.HasOne("CMS.Domain.Entities.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("Class");
 
@@ -769,30 +868,76 @@ namespace CMS.Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("ClassId");
 
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeTime", "FromTime")
+                        .WithMany()
+                        .HasForeignKey("FromTimeId");
+
                     b.HasOne("CMS.Domain.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId");
+
+                    b.HasOne("CMS.Domain.Entities.Auth.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeTime", "ToTime")
+                        .WithMany()
+                        .HasForeignKey("ToTimeId");
 
                     b.Navigation("Attendance");
 
                     b.Navigation("Class");
 
+                    b.Navigation("FromTime");
+
                     b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
+
+                    b.Navigation("ToTime");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Models.ExamAppraciateStudent", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Auth.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("CMS.Domain.Entities.Models.StudentAttendance", b =>
+                {
+                    b.HasOne("CMS.Domain.Entities.Lesson", "Lesson")
+                        .WithMany("StudentAttendances")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CMS.Domain.Entities.Auth.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Quiz", b =>
                 {
                     b.HasOne("CMS.Domain.Entities.Lesson", "Lesson")
                         .WithMany("Quizzes")
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LessonId");
 
                     b.HasOne("CMS.Domain.Entities.Subject", "Subject")
                         .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId");
 
                     b.Navigation("Lesson");
 
@@ -872,11 +1017,19 @@ namespace CMS.Infrastructure.Migrations
 
             modelBuilder.Entity("CMS.Domain.Entities.Auth.Employee", b =>
                 {
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "BirthDate")
+                        .WithMany()
+                        .HasForeignKey("BirthDateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CMS.Domain.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("BirthDate");
 
                     b.Navigation("Location");
                 });
@@ -887,6 +1040,12 @@ namespace CMS.Infrastructure.Migrations
                         .WithMany("Students")
                         .HasForeignKey("ClassId");
 
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "DateOfBirth")
+                        .WithMany()
+                        .HasForeignKey("DateOfBirthId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CMS.Domain.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
@@ -895,11 +1054,19 @@ namespace CMS.Infrastructure.Migrations
 
                     b.Navigation("Class");
 
+                    b.Navigation("DateOfBirth");
+
                     b.Navigation("Location");
                 });
 
             modelBuilder.Entity("CMS.Domain.Entities.Auth.Teacher", b =>
                 {
+                    b.HasOne("CMS.Domain.Entities.Models.CustomeDate", "BirthDate")
+                        .WithMany()
+                        .HasForeignKey("BirthDateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CMS.Domain.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
@@ -909,6 +1076,8 @@ namespace CMS.Infrastructure.Migrations
                     b.HasOne("CMS.Domain.Entities.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId");
+
+                    b.Navigation("BirthDate");
 
                     b.Navigation("Location");
 
@@ -923,8 +1092,6 @@ namespace CMS.Infrastructure.Migrations
 
             modelBuilder.Entity("CMS.Domain.Entities.Class", b =>
                 {
-                    b.Navigation("Attendances");
-
                     b.Navigation("Students");
 
                     b.Navigation("Subjects");
@@ -933,6 +1100,8 @@ namespace CMS.Infrastructure.Migrations
             modelBuilder.Entity("CMS.Domain.Entities.Lesson", b =>
                 {
                     b.Navigation("Quizzes");
+
+                    b.Navigation("StudentAttendances");
                 });
 #pragma warning restore 612, 618
         }

@@ -24,4 +24,4 @@ namespace CMS.Application.UseCases.SubjectCases.Handlers.QueryHandler
             return await _context.Subjects.ToListAsync(cancellationToken);
         }
     }
-}
+}   

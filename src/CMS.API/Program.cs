@@ -59,6 +59,8 @@ namespace CMS.API
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles();  
+
             app.UseHttpsRedirection();
 
             app.UseCors("_myAllowSpecificOrigins");

@@ -30,14 +30,12 @@ namespace CMS.Application.UseCases.EventCases.Handlers.CommandHandlers
 
             try
             {
-                // Ensure the Events directory exists
                 var eventsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "Events");
                 if (!Directory.Exists(eventsDirectory))
                 {
                     Directory.CreateDirectory(eventsDirectory);
                 }
 
-                // Upload the photo
                 using (var stream = new FileStream(photoPath, FileMode.Create))
                 {
                     await photo.CopyToAsync(stream);

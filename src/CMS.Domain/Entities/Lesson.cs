@@ -7,7 +7,7 @@ namespace CMS.Domain.Entities
     public class Lesson
     {
         public Guid Id { get; set; }
-        public string Theme { get; set; }
+        public string? Theme { get; set; }
         public Day? Day { get; set; }
         public virtual CustomeTime? FromTime { get; set; }
         public virtual CustomeTime? ToTime { get; set; }
@@ -22,6 +22,5 @@ namespace CMS.Domain.Entities
         public virtual Attendance Attendance { get; set; }
         public virtual Teacher Teacher { get; set; }
         public virtual ICollection<Quiz> Quizzes { get; set; }
-        // Ensure the directories exist
     }
 }

@@ -30,7 +30,7 @@ namespace CMS.Application.UseCases.HomeWorkCases.Handlers.CommandHandlers
                     IsSuccess = false
                 };
             }
-            res.TZ = request.TZ;
+            res.Task = request.TZ;
             _context.Homeworks.Update(res);
             await _context.SaveChangesAsync(cancellationToken);
             return new ResponseModel()

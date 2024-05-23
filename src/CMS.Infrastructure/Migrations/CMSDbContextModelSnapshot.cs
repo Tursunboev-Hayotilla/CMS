@@ -224,8 +224,11 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<Guid>("LessonId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("TZ")
+                    b.Property<string>("Task")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TaskPath")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -261,7 +264,6 @@ namespace CMS.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Theme")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("ToTimeId")

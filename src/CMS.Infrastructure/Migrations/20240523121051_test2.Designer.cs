@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CMS.Infrastructure.Migrations
 {
     [DbContext(typeof(CMSDbContext))]
-    [Migration("20240520051108_dsfgfhgjhyuttr6")]
-    partial class dsfgfhgjhyuttr6
+    [Migration("20240523121051_test2")]
+    partial class test2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,8 +227,11 @@ namespace CMS.Infrastructure.Migrations
                     b.Property<Guid>("LessonId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("TZ")
+                    b.Property<string>("Task")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TaskPath")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
